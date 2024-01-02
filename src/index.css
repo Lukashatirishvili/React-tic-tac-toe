@@ -1,0 +1,196 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+  color: #4d4d4d;
+}
+
+.icon {
+  pointer-events: none;
+}
+
+.todos {
+  margin: auto;
+  width: 700px;
+  text-align: center;
+}
+
+.title {
+  color: rgba(175, 47, 47, 0.15);
+  font-size: 90px;
+  font-weight: 100;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+/* ************ INPUT SECTION ************ */
+
+.input-section {
+  width: 500px;
+  background-color: white;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  color: black;
+  border: 1px solid rgba(169, 169, 169, 0.2);
+}
+
+.arrow-button {
+  color: #e6e6e6;
+  width: 35px;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  position: absolute;
+  left: 5px;
+  top: 13px;
+}
+
+.input {
+  width: 465px;
+  padding: 15px;
+  font-size: 22px;
+  border: none;
+  outline: none;
+}
+
+.input::placeholder {
+  font-style: italic;
+  color: rgb(227, 226, 226);
+}
+
+/* ************ TODOLIST SECTION ************ */
+
+.todolist-section {
+  width: 500px;
+  margin: 0 auto;
+  background-color: white;
+  border-left: 1px solid rgba(169, 169, 169, 0.2);
+  border-right: 1px solid rgba(169, 169, 169, 0.2);
+}
+
+.list {
+  display: flex;
+  gap: 15px;
+  padding: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #f1f0f0;
+}
+
+/**** When list is completed ****/
+.list.completed .check-button {
+  color: green;
+}
+
+.list.completed .task {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.check-button {
+  flex-basis: 20px;
+  margin-left: 4px;
+  color: #e6e6e6;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+}
+
+.task {
+  flex: 1;
+  height: 40px;
+  text-align: start;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+
+.delete-button {
+  flex-basis: 20px;
+  margin-right: 8px;
+  color: #e6e6e6;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  color: rgba(175, 47, 47, 0.5);
+}
+
+/* ************ FILTER SECTION ************ */
+.filterSection {
+  width: 500px;
+  margin: 0 auto;
+  position: relative;
+  padding: 16px;
+  background-color: white;
+  border-left: 1px solid rgba(169, 169, 169, 0.2);
+  border-right: 1px solid rgba(169, 169, 169, 0.2);
+  border-bottom: 1px solid rgba(169, 169, 169, 0.2);
+}
+
+.filterSection button {
+  border: none;
+  background-color: inherit;
+  color: #777;
+  cursor: pointer;
+}
+
+.itemsLeft {
+  font-size: 13px;
+  position: absolute;
+  top: 8px;
+  left: 15px;
+  color: #777;
+}
+
+.allButton {
+  position: absolute;
+  top: 5px;
+  left: 170px;
+}
+
+.activeButton {
+  position: absolute;
+  top: 5px;
+  left: 200px;
+}
+
+.completedButton {
+  position: absolute;
+  top: 5px;
+  left: 250px;
+}
+
+.clearButton {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  border: none;
+  cursor: pointer;
+  background-color: inherit;
+  color: #777;
+}
+
+.filterButtons button {
+  padding: 3px;
+}
+
+.filterButtons button:hover {
+  border: 1px solid rgba(132, 129, 129, 0.2);
+  border-radius: 3px;
+}
+
+.filterButtons button:active {
+  border: 1px solid rgba(175, 47, 47, 0.2);
+  border-radius: 3px;
+}
+
+.clearButton:hover {
+  text-decoration: underline;
+}
