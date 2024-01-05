@@ -49,6 +49,7 @@ export default function App() {
       />
       {listData.length > 0 && (
         <FilterSection
+          activeList={activeList}
           completedList={completedList}
           handleClearBtn={handleClearBtn}
         />
@@ -114,10 +115,10 @@ function List({ list, handleCheck, handleDelete }) {
   );
 }
 
-function FilterSection({ completedList, handleClearBtn }) {
+function FilterSection({ activeList, completedList, handleClearBtn }) {
   return (
     <div className="filterSection">
-      <span className="itemsLeft">0 items left</span>
+      <span className="itemsLeft">{activeList.length} items left</span>
       <div className="filterButtons">
         <button className="allButton">All</button>
         <button className="activeButton">Active</button>
