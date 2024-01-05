@@ -1,9 +1,13 @@
-import { Children, useState } from "react";
+import { useState } from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 
 export default function App() {
   const [listData, setListData] = useState([]);
+
+  const allList = listData.slice();
+  const activeList = listData.filter((list) => list.status === false);
+  const completedList = listData.filter((list) => list.status === true);
 
   function handleSubmit(e, inputText, setInputText, id) {
     e.preventDefault();
@@ -26,6 +30,10 @@ export default function App() {
     setListData(listData.filter((list) => list.id !== id));
   }
 
+  function handleClearBtn() {
+    setListData(listData.filter((list) => list.status === false));
+  }
+
   return (
     <div className="todos">
       <h1 className="title">todos</h1>
@@ -39,7 +47,12 @@ export default function App() {
         handleCheck={handleCheck}
         handleDelete={handleDelete}
       />
-      {listData.length > 0 && <FilterSection />}
+      {listData.length > 0 && (
+        <FilterSection
+          completedList={completedList}
+          handleClearBtn={handleClearBtn}
+        />
+      )}
     </div>
   );
 }
@@ -101,7 +114,7 @@ function List({ list, handleCheck, handleDelete }) {
   );
 }
 
-function FilterSection() {
+function FilterSection({ completedList, handleClearBtn }) {
   return (
     <div className="filterSection">
       <span className="itemsLeft">0 items left</span>
@@ -110,7 +123,11 @@ function FilterSection() {
         <button className="activeButton">Active</button>
         <button className="completedButton">Completed</button>
       </div>
-      <button className="clearButton">Clear completed</button>
+      {completedList.length > 0 && (
+        <button onClick={handleClearBtn} className="clearButton">
+          Clear completed
+        </button>
+      )}
     </div>
   );
 }
