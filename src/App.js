@@ -6,9 +6,20 @@ export default function App() {
   const [listData, setListData] = useState([]);
   const [filterData, setFilterData] = useState("all");
 
-  const allList = listData.slice();
+  /*
+  localStorage.setItem("listData", JSON.stringify(listData));
+  localStorage.setItem("filterData", filterData);
+
+  function getFromLocalStorage() {
+    setListData(JSON.parse(localStorage.getItem("listData")));
+    setFilterData(localStorage.getItem("filterData"));
+  }
+  */
+
   const activeList = listData.filter((list) => list.status === false);
   const completedList = listData.filter((list) => list.status === true);
+
+  const displayArrowBtn = completedList.length === listData.length;
 
   function handleSubmit(e, inputText, setInputText, id) {
     e.preventDefault();
@@ -35,6 +46,17 @@ export default function App() {
     setListData(listData.filter((list) => list.status === false));
   }
 
+  function handleArrowBtn(arrowIsActive, setArrowIsActive) {
+    if (arrowIsActive) {
+      setListData(listData.map((list) => ({ ...list, status: false })));
+    }
+    if (!arrowIsActive) {
+      setListData(listData.map((list) => ({ ...list, status: true })));
+    }
+
+    setArrowIsActive((arrow) => !arrow);
+  }
+
   return (
     <div className="todos">
       <h1 className="title">todos</h1>
@@ -42,6 +64,8 @@ export default function App() {
         listData={listData}
         setListData={setListData}
         handleSubmit={handleSubmit}
+        handleArrowBtn={handleArrowBtn}
+        displayArrowBtn={displayArrowBtn}
       />
       <ListSection
         listData={listData}
@@ -62,8 +86,15 @@ export default function App() {
   );
 }
 
-function InputSection({ listData, setListData, handleSubmit }) {
+function InputSection({
+  listData,
+  setListData,
+  handleSubmit,
+  handleArrowBtn,
+  displayArrowBtn,
+}) {
   const [inputText, setInputText] = useState("");
+  const [arrowIsActive, setArrowIsActive] = useState(false);
   let id = crypto.randomUUID();
 
   return (
@@ -71,7 +102,11 @@ function InputSection({ listData, setListData, handleSubmit }) {
       <div>
         {" "}
         {listData.length > 0 && (
-          <button className="arrow-button">
+          <button
+            onClick={() => handleArrowBtn(arrowIsActive, setArrowIsActive)}
+            className="arrow-button"
+            style={displayArrowBtn ? { color: "grey" } : { color: "#e6e6e6" }}
+          >
             <MdOutlineKeyboardArrowDown size="30px" className="icon" />
           </button>
         )}
