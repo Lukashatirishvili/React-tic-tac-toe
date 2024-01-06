@@ -4,6 +4,7 @@ import { CiCircleCheck } from "react-icons/ci";
 
 export default function App() {
   const [listData, setListData] = useState([]);
+  const [filterData, setFilterData] = useState("all");
 
   const allList = listData.slice();
   const activeList = listData.filter((list) => list.status === false);
@@ -46,9 +47,12 @@ export default function App() {
         listData={listData}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
+        filterData={filterData}
       />
       {listData.length > 0 && (
         <FilterSection
+          filterData={filterData}
+          setFilterData={setFilterData}
           activeList={activeList}
           completedList={completedList}
           handleClearBtn={handleClearBtn}
@@ -86,10 +90,19 @@ function InputSection({ listData, setListData, handleSubmit }) {
   );
 }
 
-function ListSection({ listData, handleCheck, handleDelete }) {
+function ListSection({ listData, handleCheck, handleDelete, filterData }) {
+  let filterArray;
+
+  if (filterData === "active")
+    filterArray = listData.filter((list) => list.status === false);
+
+  if (filterData === "completed")
+    filterArray = listData.filter((list) => list.status === true);
+
+  if (filterData === "all") filterArray = listData.slice();
   return (
     <div className="todolist-section">
-      {listData.map((list) => (
+      {filterArray.map((list) => (
         <List
           list={list}
           key={list.id}
@@ -102,27 +115,71 @@ function ListSection({ listData, handleCheck, handleDelete }) {
 }
 
 function List({ list, handleCheck, handleDelete }) {
+  const [displayDeleteBtn, setDisplayDeleteBtn] = useState(false);
+  const [inputText, setInputText] = useState(list.list);
+  const [updateMode, setUpdateMode] = useState(true);
+
   return (
-    <div className={list.status ? "list completed" : "list"}>
+    <div
+      onMouseOver={() => setDisplayDeleteBtn(true)}
+      onMouseOut={() => setDisplayDeleteBtn(false)}
+      className={list.status ? "list completed" : "list"}
+    >
       <button onClick={() => handleCheck(list.id)} className="check-button">
         <CiCircleCheck size="30px" className="icon" />
       </button>
-      <input className="task" type="text" value={list.list} readOnly />
-      <button onClick={() => handleDelete(list.id)} className="delete-button">
-        X
-      </button>
+      <input
+        className="task"
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+        onDoubleClick={() => setUpdateMode(false)}
+        readOnly={updateMode}
+      />
+      {displayDeleteBtn && (
+        <button onClick={() => handleDelete(list.id)} className="delete-button">
+          X
+        </button>
+      )}
     </div>
   );
 }
 
-function FilterSection({ activeList, completedList, handleClearBtn }) {
+function FilterSection({
+  filterData,
+  setFilterData,
+  handleClearBtn,
+  completedList,
+  activeList,
+}) {
   return (
     <div className="filterSection">
       <span className="itemsLeft">{activeList.length} items left</span>
       <div className="filterButtons">
-        <button className="allButton">All</button>
-        <button className="activeButton">Active</button>
-        <button className="completedButton">Completed</button>
+        <button
+          className={filterData === "all" ? "allButton active" : "allButton"}
+          onClick={() => setFilterData("all")}
+        >
+          All
+        </button>
+        <button
+          className={
+            filterData === "active" ? "activeButton active" : "activeButton"
+          }
+          onClick={() => setFilterData("active")}
+        >
+          Active
+        </button>
+        <button
+          className={
+            filterData === "completed"
+              ? "completedButton active"
+              : "completedButton"
+          }
+          onClick={() => setFilterData("completed")}
+        >
+          Completed
+        </button>
       </div>
       {completedList.length > 0 && (
         <button onClick={handleClearBtn} className="clearButton">
