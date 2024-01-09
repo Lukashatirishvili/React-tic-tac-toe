@@ -6,6 +6,7 @@ export default function App() {
   const [listData, setListData] = useState([]);
   const [filterData, setFilterData] = useState("all");
 
+  console.log(listData);
   /*
   localStorage.setItem("listData", JSON.stringify(listData));
   localStorage.setItem("filterData", filterData);
@@ -25,7 +26,7 @@ export default function App() {
     e.preventDefault();
     setListData((list) => [
       ...list,
-      { status: false, list: inputText, id: id },
+      { status: false, list: inputText, id: id, updateMode: false },
     ]);
     setInputText("");
   }
@@ -36,6 +37,27 @@ export default function App() {
         list.id === id ? { ...list, status: !list.status } : list
       )
     );
+  }
+
+  /*********** HANDLE UPDATE ************/
+  function handleUpdate(id) {
+    setListData(
+      listData.map((list) =>
+        list.id === id ? { ...list, updateMode: true } : list
+      )
+    );
+  }
+
+  function finishUpdate(e, inputText, id) {
+    if (e.key === "Enter") {
+      setListData(
+        listData.map((list) =>
+          list.id === id
+            ? { ...list, list: inputText, updateMode: false }
+            : list
+        )
+      );
+    }
   }
 
   function handleDelete(id) {
@@ -72,6 +94,8 @@ export default function App() {
         handleCheck={handleCheck}
         handleDelete={handleDelete}
         filterData={filterData}
+        handleUpdate={handleUpdate}
+        finishUpdate={finishUpdate}
       />
       {listData.length > 0 && (
         <FilterSection
@@ -125,7 +149,14 @@ function InputSection({
   );
 }
 
-function ListSection({ listData, handleCheck, handleDelete, filterData }) {
+function ListSection({
+  listData,
+  handleCheck,
+  handleDelete,
+  filterData,
+  handleUpdate,
+  finishUpdate,
+}) {
   let filterArray;
 
   if (filterData === "active")
@@ -143,16 +174,17 @@ function ListSection({ listData, handleCheck, handleDelete, filterData }) {
           key={list.id}
           handleCheck={handleCheck}
           handleDelete={handleDelete}
+          handleUpdate={handleUpdate}
+          finishUpdate={finishUpdate}
         />
       ))}
     </div>
   );
 }
 
-function List({ list, handleCheck, handleDelete }) {
+function List({ list, handleCheck, handleDelete, handleUpdate, finishUpdate }) {
   const [displayDeleteBtn, setDisplayDeleteBtn] = useState(false);
   const [inputText, setInputText] = useState(list.list);
-  const [updateMode, setUpdateMode] = useState(true);
 
   return (
     <div
@@ -168,8 +200,8 @@ function List({ list, handleCheck, handleDelete }) {
         type="text"
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
-        onDoubleClick={() => setUpdateMode(false)}
-        readOnly={updateMode}
+        onDoubleClick={() => handleUpdate(list.id)}
+        onKeyDown={(e) => finishUpdate(e, inputText, list.id)}
       />
       {displayDeleteBtn && (
         <button onClick={() => handleDelete(list.id)} className="delete-button">
