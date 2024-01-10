@@ -16,7 +16,7 @@ body {
 
 .todos {
   margin: auto;
-  width: 700px;
+  width: 100%;
   text-align: center;
 }
 
@@ -92,6 +92,21 @@ body {
 .list.completed .task {
   text-decoration: line-through;
   color: grey;
+}
+
+/**** When UpdateMode is on ****/
+.list.updateMode .task {
+  border: 1px solid rgb(145, 143, 143);
+  box-shadow: inset 0 0px 1.4px 0px;
+  padding: 8px;
+}
+
+.list.updateMode .delete-button {
+  display: none;
+}
+
+.list.updateMode .check-button {
+  visibility: hidden;
 }
 
 .check-button {

@@ -6,7 +6,6 @@ export default function App() {
   const [listData, setListData] = useState([]);
   const [filterData, setFilterData] = useState("all");
 
-  console.log(listData);
   /*
   localStorage.setItem("listData", JSON.stringify(listData));
   localStorage.setItem("filterData", filterData);
@@ -190,7 +189,13 @@ function List({ list, handleCheck, handleDelete, handleUpdate, finishUpdate }) {
     <div
       onMouseOver={() => setDisplayDeleteBtn(true)}
       onMouseOut={() => setDisplayDeleteBtn(false)}
-      className={list.status ? "list completed" : "list"}
+      className={
+        list.status
+          ? "list completed"
+          : list.updateMode
+          ? "list updateMode"
+          : "list"
+      }
     >
       <button onClick={() => handleCheck(list.id)} className="check-button">
         <CiCircleCheck size="30px" className="icon" />
@@ -202,6 +207,7 @@ function List({ list, handleCheck, handleDelete, handleUpdate, finishUpdate }) {
         onChange={(e) => setInputText(e.target.value)}
         onDoubleClick={() => handleUpdate(list.id)}
         onKeyDown={(e) => finishUpdate(e, inputText, list.id)}
+        readOnly={list.updateMode ? false : true}
       />
       {displayDeleteBtn && (
         <button onClick={() => handleDelete(list.id)} className="delete-button">
