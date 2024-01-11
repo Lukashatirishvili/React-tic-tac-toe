@@ -2,19 +2,21 @@ import { useState } from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { CiCircleCheck } from "react-icons/ci";
 
-export default function App() {
-  const [listData, setListData] = useState([]);
-  const [filterData, setFilterData] = useState("all");
+function getFromStorage(request) {
+  if (request === "listData") {
+    return JSON.parse(localStorage.getItem("listData")) || [];
+  }
+  if (request === "filterData") {
+    return localStorage.getItem("filterData") || "all";
+  }
+}
 
-  /*
+export default function App() {
+  const [listData, setListData] = useState(getFromStorage("listData"));
+  const [filterData, setFilterData] = useState(getFromStorage("filterData"));
+
   localStorage.setItem("listData", JSON.stringify(listData));
   localStorage.setItem("filterData", filterData);
-
-  function getFromLocalStorage() {
-    setListData(JSON.parse(localStorage.getItem("listData")));
-    setFilterData(localStorage.getItem("filterData"));
-  }
-  */
 
   const activeList = listData.filter((list) => list.status === false);
   const completedList = listData.filter((list) => list.status === true);
@@ -191,10 +193,8 @@ function List({ list, handleCheck, handleDelete, handleUpdate, finishUpdate }) {
       onMouseOut={() => setDisplayDeleteBtn(false)}
       className={
         list.status
-          ? "list completed"
-          : list.updateMode
-          ? "list updateMode"
-          : "list"
+          ? `list completed ${list.updateMode ? "updateMode" : ""}`
+          : `list ${list.updateMode ? "updateMode" : ""}`
       }
     >
       <button onClick={() => handleCheck(list.id)} className="check-button">
