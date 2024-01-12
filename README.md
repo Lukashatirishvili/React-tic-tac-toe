@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+Explore the Application: [Todos](https://lukashatirishvili.github.io/Todos/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
