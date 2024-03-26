@@ -1,34 +1,22 @@
+import { useTodosContext } from "../context/TodosContext";
 import List from "./List";
 
-export default function ListSection({
-  listData,
-  handleCheck,
-  handleDelete,
-  filterData,
-  handleUpdate,
-  finishUpdate,
-}) {
-  let filterArray;
+function ListSection() {
+  const { todoList, filterOption } = useTodosContext();
 
-  if (filterData === "active")
-    filterArray = listData.filter((list) => list.status === false);
+  const activeTask = todoList.filter((list) => !list.completed);
+  const completedTask = todoList.filter((list) => list.completed);
 
-  if (filterData === "completed")
-    filterArray = listData.filter((list) => list.status === true);
-
-  if (filterData === "all") filterArray = listData.slice();
   return (
-    <div className="todolist-section">
-      {filterArray.map((list) => (
-        <List
-          list={list}
-          key={list.id}
-          handleCheck={handleCheck}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-          finishUpdate={finishUpdate}
-        />
-      ))}
+    <div className="list-container">
+      {filterOption === "all" &&
+        todoList.map((list) => <List list={list} key={list.id} />)}
+      {filterOption === "active" &&
+        activeTask.map((list) => <List list={list} key={list.id} />)}
+      {filterOption === "completed" &&
+        completedTask.map((list) => <List list={list} key={list.id} />)}
     </div>
   );
 }
+
+export default ListSection;

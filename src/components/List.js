@@ -1,43 +1,50 @@
-import { useState } from "react";
-import { CiCircleCheck } from "react-icons/ci";
+import { useTodosContext } from "../context/TodosContext";
 
-export default function List({
-  list,
-  handleCheck,
-  handleDelete,
-  handleUpdate,
-  finishUpdate,
-}) {
-  const [displayDeleteBtn, setDisplayDeleteBtn] = useState(false);
-  const [inputText, setInputText] = useState(list.list);
+function List({ list }) {
+  const {
+    handleShowDeleteButton,
+    handleDeleteTask,
+    handleCompleteTask,
+    handleUpdateTask,
+    handleTaskChange,
+    handleFinishUpdate,
+  } = useTodosContext();
 
   return (
     <div
-      onMouseOver={() => setDisplayDeleteBtn(true)}
-      onMouseOut={() => setDisplayDeleteBtn(false)}
-      className={
-        list.status
-          ? `list completed ${list.updateMode ? "updateMode" : ""}`
-          : `list ${list.updateMode ? "updateMode" : ""}`
-      }
+      className={`list ${list.completed ? "completed" : ""}`}
+      onMouseOver={(e) => handleShowDeleteButton(e, list.id)}
+      onMouseOut={(e) => handleShowDeleteButton(e, list.id)}
     >
-      <button onClick={() => handleCheck(list.id)} className="check-button">
-        <CiCircleCheck size="30px" className="icon" />
-      </button>
-      <input
-        className="task"
-        type="text"
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        onDoubleClick={() => handleUpdate(list.id)}
-        onKeyDown={(e) => finishUpdate(e, inputText, list.id)}
-        readOnly={list.updateMode ? false : true}
-      />
-      {displayDeleteBtn && (
-        <button onClick={() => handleDelete(list.id)} className="delete-button">
-          X
+      {!list.isEditable && (
+        <button
+          onClick={() => handleCompleteTask(list.id)}
+          className="button check"
+        >
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </button>
+      )}
+      <form onSubmit={handleFinishUpdate} className="task">
+        <input
+          className="taskInput"
+          type="text"
+          onDoubleClick={() => handleUpdateTask(list.id)}
+          readOnly={!list.isEditable}
+          value={list.task}
+          onChange={(e) => handleTaskChange(e, list.id)}
+        />
+      </form>
+
+      {!list.isEditable && list.showDeleteButton && (
+        <button
+          onClick={() => handleDeleteTask(list.id)}
+          className="button delete"
+        >
+          <ion-icon name="close-outline" eventType="onMouseOver"></ion-icon>
         </button>
       )}
     </div>
   );
 }
+
+export default List;
