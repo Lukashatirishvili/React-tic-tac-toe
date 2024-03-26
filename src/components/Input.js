@@ -16,7 +16,8 @@ function Input() {
           onClick={handleToggleAllButton}
           className={`button toggle-all ${toggleAllButton ? "active" : ""}`}
         >
-          <ion-icon name="chevron-down-outline"></ion-icon>
+          {/* <ion-icon name="chevron-down-outline"></ion-icon> */}
+          Arr
         </button>
       )}
       <form onSubmit={handleAddTask} className="input-form">

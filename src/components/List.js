@@ -21,7 +21,8 @@ function List({ list }) {
           onClick={() => handleCompleteTask(list.id)}
           className="button check"
         >
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          Check
+          {/* <ion-icon name="checkmark-circle-outline"></ion-icon> */}
         </button>
       )}
       <form onSubmit={handleFinishUpdate} className="task">
@@ -40,7 +41,8 @@ function List({ list }) {
           onClick={() => handleDeleteTask(list.id)}
           className="button delete"
         >
-          <ion-icon name="close-outline" eventType="onMouseOver"></ion-icon>
+          Delete
+          {/* <ion-icon name="close-outline" eventType="onMouseOver"></ion-icon> */}
         </button>
       )}
     </div>
