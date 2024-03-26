@@ -50,7 +50,7 @@ function reducer(state, action) {
       const updatedTodoListDelete = state.todoList.filter(
         (list) => list.id !== action.payload
       );
-      console.log(updatedTodoListDelete);
+
       return {
         ...state,
         todoList: updatedTodoListDelete,
@@ -201,7 +201,6 @@ function TodosProvider({ children }) {
   }
 
   function handleClearButton() {
-    console.log(true);
     dispatch({ type: "handle_ClearButton" });
   }
 
