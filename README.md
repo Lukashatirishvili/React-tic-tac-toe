@@ -1,72 +1,44 @@
-# Getting Started with Create React App
+# 📋 ToDoList
 
-Explore the Application: [Todos](https://lukashatirishvili.github.io/Todos/)
+Welcome to ToDoList! This app helps you efficiently manage tasks, featuring adding, completing, and deleting tasks, with filter options based on completion status. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
 
-## Available Scripts
+- **Task Management**: Add, complete, and delete tasks seamlessly.
+- **Completion Status Filtering**: Filter tasks based on whether they are completed, active, or view both.
+- **Data Persistence**: Your task list is saved locally using browser storage, ensuring your tasks persist across sessions.
+- **Responsive Design**: Enjoy a user-friendly experience across various devices, from desktops to smartphones.
 
-In the project directory, you can run:
+## Technologies Used
 
-### `npm start`
+- **React**: JavaScript library for building user interfaces.
+- **HTML & CSS**: Markup and styling for the application.
+- **Context API**: For managing global state in React components.
+- **useReducer Hook**: For managing state transitions in React components.
+- **localStorage API**: For persisting task data on the client-side browser storage.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Usage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Adding a Task**: Enter your task in the input field and press `Enter` or click the Add button.
+- **Completing a Task**: Click the checkbox next to the task to mark it as completed.
+- **Deleting a Task**: Click the delete button (usually represented by a trash icon) next to the task to remove it from the list.
+- **Filtering Tasks**: Use the filter buttons to view tasks based on their completion status (All, Active, Completed).
 
-### `npm test`
+## Contributing
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Contributions are welcome! If you'd like to contribute to usePopcorn, please follow these steps:
 
-### `npm run build`
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add new feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Create a new Pull Request.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Deployment
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The app is deployed on Vercel. To visit the deployed version [click here](https://usepopcorn-app-five.vercel.app/).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Contact
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you have any questions, feedback, or suggestions, please feel free to reach out to lukkashatirishvili@gmail.com
