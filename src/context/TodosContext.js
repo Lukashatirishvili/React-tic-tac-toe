@@ -16,11 +16,12 @@ const initialState = {
 };
 
 function reducer(state, action) {
+  let newTodoList;
   switch (action.type) {
     case "handle_InputValue":
       return { ...state, inputValue: action.payload };
     case "handle_AddTask":
-      const updatedTodoListAdd = [
+      newTodoList = [
         ...state.todoList,
         {
           id: generateUniqueId(),
@@ -33,93 +34,90 @@ function reducer(state, action) {
       return {
         ...state,
         inputValue: "",
-        todoList: updatedTodoListAdd,
-        toggleAllButton: updatedTodoListAdd.every((list) =>
-          list.completed ? true : false
-        ),
+        todoList: newTodoList,
+        toggleAllButton: newTodoList.every((list) => list.completed),
       };
     case "handle_UpdateTask":
-      const updateTodoListEdit = state.todoList.map((list) => {
-        if (list.id === action.payload) {
-          return { ...list, isEditable: true };
-        }
-        return { ...list, isEditable: false };
-      });
-      return { ...state, todoList: updateTodoListEdit };
+      newTodoList = state.todoList.map((list) => ({
+        ...list,
+        isEditable: list.id === action.payload,
+      }));
+
+      return { ...state, todoList: newTodoList };
     case "handle_DeleteTask":
-      const updatedTodoListDelete = state.todoList.filter(
-        (list) => list.id !== action.payload
-      );
+      newTodoList = state.todoList.filter((list) => list.id !== action.payload);
 
       return {
         ...state,
-        todoList: updatedTodoListDelete,
-        toggleAllButton: updatedTodoListDelete.every((list) => list.completed)
-          ? true
-          : false,
+        todoList: newTodoList,
+        toggleAllButton: newTodoList.every((list) => list.completed),
       };
     case "handle_CompleteTask":
-      const updatedTodoListComplete = state.todoList.map((list) => {
-        if (list.id === action.payload) {
-          return { ...list, completed: !list.completed };
-        }
-        return list;
-      });
+      newTodoList = state.todoList.map((list) => ({
+        ...list,
+        completed:
+          list.id === action.payload ? !list.completed : list.completed,
+      }));
 
       return {
         ...state,
-        todoList: updatedTodoListComplete,
-        toggleAllButton: updatedTodoListComplete.every((list) =>
-          list.completed ? true : false
-        ),
+        todoList: newTodoList,
+        toggleAllButton: newTodoList.every((list) => list.completed),
       };
     case "handle_FilterOption":
       return { ...state, filterOption: action.payload };
     case "handle_ShowDeleteButton":
+      newTodoList = state.todoList.map((list) => ({
+        ...list,
+        showDeleteButton:
+          list.id === action.payload.id
+            ? action.payload.action
+            : state.showDeleteButton,
+      }));
+
       return {
         ...state,
-        todoList: state.todoList.map((list) => {
-          if (list.id === action.payload.id) {
-            return { ...list, showDeleteButton: action.payload.action };
-          }
-          return list;
-        }),
+        todoList: newTodoList,
       };
     case "handle_ToggleAllButton":
       const updatedToggleAllButton = !state.toggleAllButton;
-      const updatedList = updatedToggleAllButton
-        ? state.todoList.map((list) => ({ ...list, completed: true }))
-        : state.todoList.map((list) => ({ ...list, completed: false }));
+      newTodoList = state.todoList.map((list) => ({
+        ...list,
+        completed: updatedToggleAllButton,
+      }));
+
       return {
         ...state,
         toggleAllButton: updatedToggleAllButton,
-        todoList: updatedList,
+        todoList: newTodoList,
       };
     case "handle_ClearButton":
+      newTodoList = state.todoList.filter((list) => !list.completed);
+
       return {
         ...state,
-        todoList: state.todoList.filter((list) => !list.completed),
+        todoList: newTodoList,
       };
     case "handle_TaskChange":
+      newTodoList = state.todoList.map((list) => ({
+        ...list,
+        task: list.id === action.payload.id ? action.payload.value : list.task,
+      }));
+
       return {
         ...state,
-        todoList: state.todoList.map((list) => {
-          if (list.id === action.payload.id) {
-            return { ...list, task: action.payload.e.target.value };
-          }
-          return { ...list };
-        }),
+        todoList: newTodoList,
       };
     case "handle_FinishUpdate":
+      newTodoList = state.todoList.map((list) => ({
+        ...list,
+        isEditable: false,
+      }));
+
       return {
         ...state,
-        todoList: state.todoList.map((list) => ({
-          ...list,
-          isEditable: false,
-        })),
+        todoList: newTodoList,
       };
-    case "getItemsFrom_localStorage":
-      return { ...state, todoList: action.payload };
     default:
       return { ...state };
   }
@@ -132,16 +130,6 @@ function TodosProvider({ children }) {
   function handleInputValue(e) {
     dispatch({ type: "handle_InputValue", payload: e.target.value });
   }
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("todos"));
-    if (data) dispatch({ type: "getItemsFrom_localStorage", payload: data });
-  }, []);
-
-  useEffect(() => {
-    if (todoList.length < 1) return;
-    localStorage.setItem("todos", JSON.stringify(todoList));
-  }, [todoList]);
 
   useEffect(() => {
     if (todoList.every((list) => !list.isEditable)) return;
@@ -205,7 +193,8 @@ function TodosProvider({ children }) {
   }
 
   function handleTaskChange(e, id) {
-    dispatch({ type: "handle_TaskChange", payload: { e, id } });
+    let value = e.target.value;
+    dispatch({ type: "handle_TaskChange", payload: { value, id } });
   }
 
   return (
