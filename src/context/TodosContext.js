@@ -10,9 +10,9 @@ function generateUniqueId() {
 
 const initialState = {
   inputValue: "",
-  todoList: [],
-  toggleAllButton: false,
-  filterOption: "all",
+  todoList: JSON.parse(localStorage.getItem("todoList")) || [], // Retrieve from localStorage,
+  toggleAllButton: JSON.parse(localStorage.getItem("toggleAllButton")) || false,
+  filterOption: localStorage.getItem("filterOption") || "all",
 };
 
 function reducer(state, action) {
@@ -130,6 +130,12 @@ function TodosProvider({ children }) {
   function handleInputValue(e) {
     dispatch({ type: "handle_InputValue", payload: e.target.value });
   }
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+    localStorage.setItem("toggleAllButton", toggleAllButton);
+    localStorage.setItem("filterOption", filterOption);
+  }, [todoList, toggleAllButton, filterOption]);
 
   useEffect(() => {
     if (todoList.every((list) => !list.isEditable)) return;
