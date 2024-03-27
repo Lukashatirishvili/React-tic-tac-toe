@@ -37,7 +37,7 @@ Contributions are welcome! If you'd like to contribute to usePopcorn, please fol
 
 ## Deployment
 
-The app is deployed on Vercel. To visit the deployed version [click here](https://usepopcorn-app-five.vercel.app/).
+The app is deployed on Vercel. To visit the deployed version <a href="https://todolist-app-two-rust.vercel.app/" target="_blank">click here</a>.
 
 ## Contact
 
